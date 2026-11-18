@@ -216,22 +216,28 @@ function render() {
   els.hintCount.textContent = state.hints;
   els.hintBtn.disabled = state.hints === 0 || state.over;
 
-  // word tiles
+  // word blanks — one underscore placeholder per letter, so the full length is visible
   els.wordDisplay.innerHTML = "";
-  state.word.split("").forEach((ch) => {
-    const tile = document.createElement("div");
-    tile.className = "slot";
-    const open = state.guessed.has(ch);
-    if (open) {
-      tile.textContent = ch;
-      tile.classList.add("open");
+  state.word.split("").forEach((ch, i) => {
+    const slot = document.createElement("div");
+    slot.className = "slot";
+    slot.dataset.index = i;
+
+    if (state.guessed.has(ch)) {
+      slot.textContent = ch;               // revealed: show the letter only
+      slot.classList.add("filled");
+    } else {
+      slot.textContent = "_";              // hidden: underscore placeholder only
+      slot.classList.add("empty");
+      slot.setAttribute("aria-label", "Letter " + (i + 1) + " not guessed yet");
     }
-    if (state.over && !open) {
-      tile.textContent = ch;
-      tile.classList.add("missed-slot");
-    }
-    els.wordDisplay.appendChild(tile);
+    if (state.over && !state.guessed.has(ch)) slot.classList.add("missed");
+    els.wordDisplay.appendChild(slot);
   });
+
+  // length info mirrors the placeholder count
+  const hidden = state.word.split("").filter((ch) => !state.guessed.has(ch)).length;
+  els.lengthCount.textContent = state.word.length + " letters · " + hidden + " still hidden";
 
   // lock keys
   els.keyboard.querySelectorAll(".key").forEach((k) => {
