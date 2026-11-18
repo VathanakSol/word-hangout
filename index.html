@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Hangout — Guess the Word Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="logo">Word<span>Hangout</span></h1>
+    <p class="tagline">Pick a letter. Hang out with words. Don't get hanged.</p>
+  </header>
+
+  <main class="game-shell">
+    <section class="panel canvas-panel">
+      <svg id="gallows" viewBox="0 0 200 240" class="gallows" aria-label="Hangman drawing">
+        <line x1="20" y1="230" x2="90" y2="230" class="frame" />
+        <line x1="50" y1="230" x2="50" y2="30" class="frame" />
+        <line x1="50" y1="30" x2="130" y2="30" class="frame" />
+        <line x1="130" y1="30" x2="130" y2="55" class="frame" />
+        <g id="parts">
+          <circle cx="130" cy="72" r="17" class="part" />
+          <line x1="130" y1="89" x2="130" y2="140" class="part" />
+          <line x1="130" y1="100" x2="100" y2="125" class="part" />
+          <line x1="130" y1="100" x2="160" y2="125" class="part" />
+          <line x1="130" y1="140" x2="105" y2="180" class="part" />
+          <line x1="130" y1="140" x2="155" y2="180" class="part" />
+        </g>
+      </svg>
+      <div class="status-row">
+        <span class="badge" id="lives-badge">Lives: 6</span>
+        <span class="badge muted" id="streak-badge">Streak: 0</span>
+        <span class="badge muted" id="score-badge">Score: 0</span>
+      </div>
+    </section>
+
+    <section class="panel word-panel">
+      <div class="meta-row">
+        <label class="select-wrap">
+          <span>Difficulty</span>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </label>
+        <span class="hint-text" id="category-label">Category: —</span>
+      </div>
+
+      <div id="word-display" class="word-display"></div>
+
+      <p class="clue" id="clue">&nbsp;</p>
+
+      <div id="keyboard" class="keyboard"></div>
+
+      <div class="controls">
+        <button id="hint-btn" class="btn ghost">Reveal hint (<span id="hint-count">3</span>)</button>
+        <button id="new-game-btn" class="btn primary">New Word</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="overlay" class="overlay hidden">
+    <div class="modal">
+      <h2 id="result-title">Nice!</h2>
+      <p id="result-text">You got the word.</p>
+      <p class="answer-line">Answer: <strong id="result-answer"></strong></p>
+      <button id="play-again-btn" class="btn primary">Play again</button>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <p>Type or click a letter · Keyboard shortcuts: A–Z, Enter for new word</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
